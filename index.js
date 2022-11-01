@@ -77,8 +77,13 @@ function viewAllDepartments() {
 }
 
 function viewAllRoles() {
-  console.log(`Selected 'view all roles'`);
-  choose();
+  db.query(sqlQueries.viewRoles, (err, result) => {
+    if (err) {
+      console.error(err)
+    }
+    console.table(result);
+    choose();
+  })
 }
 
 function viewAllEmployees() {

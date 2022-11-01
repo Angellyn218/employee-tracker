@@ -17,3 +17,5 @@ Operations jobs: https://www.indeed.com/career-advice/finding-a-job/operations-j
 IT jobs: https://www.coursera.org/articles/it-salaries-roles-location-and-experience 
 
 switch statement: https://www.w3schools.com/js/js_switch.asp 
+
+Select and join two tables' elements: https://stackoverflow.com/questions/10230438/mysql-join-2-tables
