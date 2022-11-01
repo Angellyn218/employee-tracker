@@ -14,11 +14,7 @@ const db = mysql.createConnection(
     console.log(`Connected to the employee_db database.`)
 );
 
-function init() {
-  choose();
-}
-
-const prompt = 
+function choose() {
   inquirer
     .prompt([{
       type: "list",
@@ -33,33 +29,40 @@ const prompt =
         "add an employee",
         "update an employee role",
         "quit"]
-      }])
-
-function choose() {
-  prompt.then(({ choice }) => {
-    if (choice === "view all departments") {
-      viewAllDepartments();
-    } else if (choice === "view all roles") {
-      viewAllRoles();
-    } else if (choice === "view all employees") {
-      viewAllEmployees();
-    } else if (choice === "add a department") {
-      addADepartment();
-    } else if (choice === "add a role") {
-      addARole();
-    } else if (choice === "add an employee") {
-      addAEmployee();
-    } else if (choice === "update an employee role") {
-      updateAnEmployeeRole();
-    } else if (choice === "quit") {
-      console.log(`See you again next time!`);
-      exit();
-    } else {
-      console.log("Not an available option. Please try again!");
-      choose();
+  }])
+  .then(({ choice }) => {
+    switch (choice) {
+      case "view all departments":
+        viewAllDepartments();
+        break;
+      case "view all roles":
+        viewAllRoles();
+        break;
+      case "view all employees":
+        viewAllEmployees();
+        break;
+      case "add a department":
+        addADepartment();
+        break;
+      case "add a role":
+        addARole();
+        break;
+      case "add an employee":
+        addAEmployee();
+        break;
+      case "update an employee role":
+        updateAnEmployeeRole();
+        break;
+      case "quit":
+        console.log("See you again next time!");
+        db.end();
+      default:
+        console.log("Not a valid option.");
+        db.end();
+        return;
     }
-  });
-}
+  })
+};
 
 function viewAllDepartments() {
   console.log(`Selected 'view all departments'`);
@@ -96,8 +99,4 @@ function updateAnEmployeeRole() {
   choose();
 }
 
-function exit() {
-  prompt.ui.close();
-}
-
-init();
+choose();
