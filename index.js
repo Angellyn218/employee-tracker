@@ -2,7 +2,9 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
 const sqlQueries = require('./queries/sqlQueries');
-const inquirerQueries = require('./queries/inquirerQueries');
+const departments = [];
+let roles = [];
+let employees = [];
 
 const db = mysql.createConnection(
     {
@@ -15,6 +17,50 @@ const db = mysql.createConnection(
     },
     console.log(`Connected to the employee_db database.`)
 );
+
+function init() {
+  setDepartments();
+  setRoles();
+  setEmployees();
+  choose();
+}
+
+function setDepartments() {
+  db.query(`SELECT name FROM departments ORDER BY id ASC`, (err, result) => {
+    if (err) {
+      console.error(err);
+    } else {
+      for(let i = 0; i < result.length; i++) {
+        departments.push(result[i].name);
+      }
+    }
+  });
+}
+
+function setRoles() {
+  db.query(`SELECT title FROM roles ORDER BY id ASC`, (err, result) => {
+    if (err) {
+      console.error(err);
+    } else {
+      for(let i = 0; i < result.length; i++) {
+        roles.push(result[i].title);
+      }
+    }
+  });
+}
+
+function setEmployees() {
+  db.query(`SELECT first_name, last_name FROM employees ORDER BY id ASC`, (err, result) => {
+    if (err) {
+      console.error(err);
+    } else {
+      for(let i = 0; i < result.length; i++) {
+        let newStr = result[i].first_name + " " + result[i].last_name
+        employees.push(newStr);
+      }
+    }
+  });
+}
 
 function choose() {
   inquirer
@@ -111,14 +157,31 @@ function addADepartment() {
           choose();
         })
       }
-    }
-      
-    )
+    })
 }
 
 function addARole() {
-  console.log(`Selected 'add a role'`);
-  choose();
+  // inquirer
+  //   .prompt(inquirerQueries.addRole)
+  //   .then(({ title, salary, department_id }) => {
+  //     if ((title.length > 0) && (title.length <= 30) && (typeof salary === "string")) {
+  //       const elems = [];
+  //       elems.push(title);
+  //       elems.push(salary);
+  //       elems.push(department_id);
+  //       db.query(sqlQueries.addRole, elems, (err) => {
+  //         if (err) {
+  //           console.error(err);
+  //         } else {
+  //           console.log(`Added '${depName}' to departments!`);
+  //         }
+  //         choose();
+  //       })
+  //     } else {
+  //       console.log("Invalid input for role");
+  //       choose();
+  //     }
+  //   })
 }
 
 function addAEmployee() {
@@ -131,4 +194,5 @@ function updateAnEmployeeRole() {
   choose();
 }
 
-choose();
+init();
+// choose();
