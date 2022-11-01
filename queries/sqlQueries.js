@@ -14,7 +14,8 @@ const sqlQueries = {
     ORDER BY id ASC`,
     addDepartment: `INSERT INTO departments (name)
     VALUES (?)`,
-    addRole: "",
+    addRole: `INSERT INTO roles (title, salary, department_id)
+    VALUES (?, ?, ?)`,
     addEmployee: "",
     updateEmployeeRole: ""
 };
