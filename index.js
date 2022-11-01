@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const consoleTable = require('console.table')
+const cTable = require('console.table');
+const sqlQueries = require('./queries/sqlQueries');
 
 const db = mysql.createConnection(
     {
@@ -56,6 +57,7 @@ function choose() {
       case "quit":
         console.log("See you again next time!");
         db.end();
+        break;
       default:
         console.log("Not a valid option.");
         db.end();
@@ -65,8 +67,13 @@ function choose() {
 };
 
 function viewAllDepartments() {
-  console.log(`Selected 'view all departments'`);
-  choose();
+  db.query(sqlQueries.viewDepartments, (err, result) => {
+    if (err) {
+      console.error(err)
+    }
+    console.table(result);
+    choose();
+  })
 }
 
 function viewAllRoles() {

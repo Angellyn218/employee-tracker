@@ -1,5 +1,5 @@
 const sqlQueries = {
-
+    viewDepartments: "SELECT * FROM departments"
 };
 
-modules.exports = sqlQueries;
+module.exports = sqlQueries;
