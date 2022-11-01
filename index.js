@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
 const sqlQueries = require('./queries/sqlQueries');
+const inquirerQueries = require('./queries/inquirerQueries');
 
 const db = mysql.createConnection(
     {
@@ -87,13 +88,32 @@ function viewAllRoles() {
 }
 
 function viewAllEmployees() {
-  console.log(`Selected 'view all employees'`);
-  choose();
+  db.query(sqlQueries.viewEmployees, (err, result) => {
+    if (err) {
+      console.error(err)
+    }
+    console.table(result);
+    choose();
+  })
 }
 
 function addADepartment() {
-  console.log(`Selected 'add a department'`);
-  choose();
+  inquirer
+    .prompt(inquirerQueries.addDepartment)
+    .then(({ depName }) => {
+      if ((depName.length > 0) && (depName.length <= 30)) {
+        db.query(sqlQueries.addDepartment, depName, (err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log(`Added '${depName}' to departments!`);
+          }
+          choose();
+        })
+      }
+    }
+      
+    )
 }
 
 function addARole() {

@@ -19,3 +19,11 @@ IT jobs: https://www.coursera.org/articles/it-salaries-roles-location-and-experi
 switch statement: https://www.w3schools.com/js/js_switch.asp 
 
 Select and join two tables' elements: https://stackoverflow.com/questions/10230438/mysql-join-2-tables
+
+Order by: https://www.w3schools.com/mysql/mysql_orderby.asp 
+
+Concat: https://www.w3schools.com/sql/func_mysql_concat.asp 
+
+Join multiple tables: https://www.sqlshack.com/learn-sql-join-multiple-tables/
+
+Include null in table: https://stackoverflow.com/questions/43907195/how-to-include-null-value-in-join 
