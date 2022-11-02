@@ -2,7 +2,6 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
 const sqlQueries = require('./queries/sqlQueries');
-const inquirerQueries = require('./queries/inquirerQueries')
 let departments = [];
 let roles = [];
 let employees = [];
@@ -67,9 +66,6 @@ function setEmployees() {
 }
 
 function choose() {
-  console.log(departments);
-  console.log(roles);
-  console.log(employees);
   inquirer
     .prompt([{
       type: "list",
@@ -301,4 +297,3 @@ function updateAnEmployeeRole() {
 }
 
 init();
-// choose();
