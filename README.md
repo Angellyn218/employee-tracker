@@ -76,6 +76,8 @@ To quit the program, select 'quit' on the main menu. This will exit the program.
 
 ![Quit program](assets/images/quit.png)
 
+For a full walkthrough of this program, watch [this video](https://watch.screencastify.com/v/uoKtnSGUeJfA9XZpnOYR).
+
 ## Credits
 
 console.table: https://www.npmjs.com/package/console.table
