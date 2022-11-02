@@ -150,10 +150,11 @@ function addADepartment() {
   inquirer
     .prompt([{
       type: 'input',
-      name: 'depName',
+      name: 'depN',
       message: "What is the name of the department that you want to add?"
     }])
-    .then(({ depName }) => {
+    .then(({ depN }) => {
+      const depName = depN.trim();
       if ((depName.length > 0) && (depName.length <= 30)) {
         db.query(sqlQueries.addDepartment, depName, (err) => {
           if (err) {
@@ -175,11 +176,11 @@ function addARole() {
   inquirer
     .prompt([{ 
       type: 'input',
-      name: 'title',
+      name: 'ti',
       message: "What is the title of the role that you want to add?"
   }, { 
       type: 'input',
-      name: 'salary',
+      name: 'sal',
       message: "What is the salary of this role?"
   }, { 
       type: 'list',
@@ -187,8 +188,10 @@ function addARole() {
       message: "What is the department that this role belongs to?",
       choices: departments
   }])
-    .then(({ title, salary, department }) => {
-      if ((title.length > 0) && (title.length <= 30) && (typeof salary === "string")) {
+    .then(({ ti, sal, department }) => {
+      const title = ti.trim();
+      const salary = parseInt(sal) || -1;
+      if ((title.length > 0) && (title.length <= 30) && (salary >= 0)) {
         const elems = [];
         elems.push(title);
         elems.push(salary);
@@ -216,11 +219,11 @@ function addAEmployee() {
   inquirer
     .prompt([{
       type: 'input',
-      name: 'first_name',
+      name: 'f_name',
       message: "What is the first name of this employee?"
     }, {
       type: 'input',
-      name: 'last_name',
+      name: 'l_name',
       message: "What is the last name of this employee?"
     }, { 
       type: 'list',
@@ -233,7 +236,10 @@ function addAEmployee() {
       message: "Who is this employee's manager?",
       choices: employees
     }])
-    .then(({ first_name, last_name, role, manager }) => {
+    .then(({ f_name, l_name, role, manager }) => {
+      const first_name = f_name.trim();
+      const last_name = l_name.trim();
+
       if ((first_name.length > 0) && (first_name.length <= 30) && (last_name.length > 0) && (last_name.length <= 30)) {
         const elems = [];
         elems.push(first_name);

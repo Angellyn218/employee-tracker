@@ -108,6 +108,8 @@ Include null in table: https://stackoverflow.com/questions/43907195/how-to-inclu
 
 IndexOf: https://www.w3schools.com/jsref/jsref_indexof_array.asp 
 
+parseInt and non-numbers: https://stackoverflow.com/questions/6736476/how-to-turn-nan-from-parseint-into-0-for-an-empty-string 
+
 ## License
 
 Please refer to LICENSE in this repository
