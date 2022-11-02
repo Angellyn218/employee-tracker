@@ -281,7 +281,7 @@ function updateAnEmployeeRole() {
       let role_id = roles.indexOf(role) + 1;
       elems.push(role_id);
 
-      let employee_id = employees.indexOf(role) + 1;
+      let employee_id = employees.indexOf(employee) + 1;
       elems.push(employee_id);
       
       db.query(sqlQueries.updateEmployeeRole, elems, (err) => {
@@ -290,7 +290,6 @@ function updateAnEmployeeRole() {
         } else {
           console.log(`Changed ${employee}'s role to ${role}!`);
         }
-        setDepartments();
         choose();
       })
     })
