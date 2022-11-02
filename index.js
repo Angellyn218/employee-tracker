@@ -62,6 +62,7 @@ function setEmployees() {
         let newStr = result[i].first_name + " " + result[i].last_name
         employees.push(newStr);
       }
+      employees.push("This employee has no manager");
     }
   });
 }
@@ -168,6 +169,9 @@ function addADepartment() {
           setDepartments();
           choose();
         })
+      } else {
+        console.log("Invalid input for department");
+        choose();
       }
     })
 }
@@ -184,22 +188,25 @@ function addARole() {
       message: "What is the salary of this role?"
   }, { 
       type: 'list',
-      name: 'department_id',
+      name: 'department',
       message: "What is the department that this role belongs to?",
       choices: departments
   }])
-    .then(({ title, salary, department_id }) => {
+    .then(({ title, salary, department }) => {
       if ((title.length > 0) && (title.length <= 30) && (typeof salary === "string")) {
         const elems = [];
         elems.push(title);
         elems.push(salary);
-        elems.push(departments.indexOf(department_id));
+
+        let department_id = departments.indexOf(department) + 1;
+        elems.push(department_id);
         db.query(sqlQueries.addRole, elems, (err) => {
           if (err) {
             console.error(err);
           } else {
             console.log(`Added '${title}' role!`);
           }
+          setRoles();
           choose();
         })
       } else {
@@ -210,8 +217,53 @@ function addARole() {
 }
 
 function addAEmployee() {
-  console.log(`Selected 'add an employee'`);
-  choose();
+  inquirer
+    .prompt([{
+      type: 'input',
+      name: 'first_name',
+      message: "What is the first name of this employee?"
+    }, {
+      type: 'input',
+      name: 'last_name',
+      message: "What is the last name of this employee?"
+    }, { 
+      type: 'list',
+      name: 'role',
+      message: "What role does this employee have?",
+      choices: roles
+    }, { 
+      type: 'list',
+      name: 'manager',
+      message: "Who is this employee's manager?",
+      choices: employees
+    }])
+    .then(({ first_name, last_name, role, manager }) => {
+      if ((first_name.length > 0) && (first_name.length <= 30) && (last_name.length > 0) && (last_name.length <= 30)) {
+        const elems = [];
+        elems.push(first_name);
+        elems.push(last_name);
+
+        let role_id = roles.indexOf(role) + 1;
+        elems.push(role_id);
+        let manager_id = employees.indexOf(manager) + 1;
+        if (manager_id === employees.length) {
+          manager_id = null;
+        }
+        elems.push(manager_id)
+        db.query(sqlQueries.addEmployee, elems, (err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log(`Added '${first_name} ${last_name}' as a ${role}!`);
+          }
+          setEmployees();
+          choose();
+        })
+      } else {
+        console.log("Invalid input for employee");
+        choose();
+      }
+    })
 }
 
 function updateAnEmployeeRole() {
