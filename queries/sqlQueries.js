@@ -18,7 +18,7 @@ const sqlQueries = {
     VALUES (?, ?, ?)`,
     addEmployee: `INSERT INTO employees (first_name, last_name, role_id, manager_id)
     VALUES (?, ?, ?, ?)`,
-    updateEmployeeRole: ""
+    updateEmployeeRole: `UPDATE employees SET role_id = ? WHERE employees.id = ?`
 };
 
 module.exports = sqlQueries;

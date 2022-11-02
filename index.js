@@ -62,7 +62,6 @@ function setEmployees() {
         let newStr = result[i].first_name + " " + result[i].last_name
         employees.push(newStr);
       }
-      employees.push("This employee has no manager");
     }
   });
 }
@@ -217,6 +216,7 @@ function addARole() {
 }
 
 function addAEmployee() {
+  employees.push("This employee has no manager");
   inquirer
     .prompt([{
       type: 'input',
@@ -267,8 +267,37 @@ function addAEmployee() {
 }
 
 function updateAnEmployeeRole() {
-  console.log(`Selected 'add an employee role'`);
-  choose();
+  inquirer
+    .prompt([{ 
+      type: 'list',
+      name: 'employee',
+      message: "Which employee do you want to update?",
+      choices: employees
+    },{ 
+      type: 'list',
+      name: 'role',
+      message: "What is this employee's new role?",
+      choices: roles
+    }])
+    .then(({ employee, role }) => {
+      const elems = [];
+
+      let role_id = roles.indexOf(role) + 1;
+      elems.push(role_id);
+
+      let employee_id = employees.indexOf(role) + 1;
+      elems.push(employee_id);
+      
+      db.query(sqlQueries.updateEmployeeRole, elems, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log(`Changed ${employee}'s role to ${role}!`);
+        }
+        setDepartments();
+        choose();
+      })
+    })
 }
 
 init();
